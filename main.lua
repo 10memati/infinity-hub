@@ -47,49 +47,63 @@ closeButton.Parent = mainFrame
 
 closeButton.MouseButton1Click:Connect(function()
     darkThemeGui:Destroy()
-end)
+    end)
 
 local commandPrefix = ";"
 local commands = loadstring(game:HttpGet("https://raw.githubusercontent.com/10memati/infinity-hub/main/commands.lua"))()
 
 textBox.FocusLost:Connect(function(enterPressed)
     if enterPressed then
-        local commandText = textBox.Text
-        if commandText:sub(1, #commandPrefix) == commandPrefix then
-            local args = {}
-            for arg in commandText:sub(#commandPrefix + 1):gmatch("%S+") do
-                table.insert(args, arg)
-            end
-
-            local commandName = table.remove(args, 1)
-
-            if commandName == "tp" then  -- "==", "===" değil
-                local player1 = findUser(args[1])
-                local player2 = findUser(args[2])
-                if player1 and player2 then
-                    commands.tp(player1, player2)
-                else
-                    print("Player not found.")
-                end
-            else
-                print("Invalid command: " .. commandName)
-            end
-        end
+    local commandText = textBox.Text
+    if commandText:sub(1, #commandPrefix) == commandPrefix then
+    local args = {}
+    for arg in commandText:sub(#commandPrefix + 1):gmatch("%S+") do
+    table.insert(args, arg)
     end
-end)
+
+    local commandName = table.remove(args, 1)
+
+    if commandName == "tp" then
+    local player1 = findUser(args[1])
+    local player2 = findUser(args[2])
+    if player1 and player2 then
+    commands.tp(player1, player2)
+    else
+        print("Player not found.")
+    end
+    elseif commandName == "god" then
+    local player1 = findUser(args[1])
+    if player1 then
+    commands.godmode(player1)
+    else
+        print('Player not found.')
+    end
+    elseif commandName == "kill" then
+    local player1 = findUser(args[1])
+    if player1 then
+    commands.kill(player1)
+    else
+        print('Player not found.')
+    end
+    else
+        print("Invalid command: " .. commandName)
+    end
+    end
+    end
+    end)
 
 darkThemeGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 function findUser(targetNameStart)
-    targetNameStart = string.lower(targetNameStart) -- Girilen adı küçük harfe dönüştür
+targetNameStart = string.lower(targetNameStart) -- Girilen adı küçük harfe dönüştür
 
-    for _, player in pairs(game.Players:GetPlayers()) do
-        local playerName = string.lower(player.Name) -- Oyuncu adını küçük harfe dönüştür
+for _, player in pairs(game.Players:GetPlayers()) do
+local playerName = string.lower(player.Name) -- Oyuncu adını küçük harfe dönüştür
 
-        if playerName:sub(1, #targetNameStart) == targetNameStart then
-            return player
-        end
-    end
+if playerName:sub(1, #targetNameStart) == targetNameStart then
+return player
+end
+end
 
-    return nil
+return nil
 end
