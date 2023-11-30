@@ -47,31 +47,43 @@ closeButton.Parent = mainFrame
 
 closeButton.MouseButton1Click:Connect(function()
     darkThemeGui:Destroy()
-end)
+    end)
 
 local commandPrefix = ";"
 local commands = loadstring(game:HttpGet("https://raw.githubusercontent.com/10memati/infinity-hub/main/commands.lua"))()
 
 textBox.FocusLost:Connect(function(enterPressed)
     if enterPressed then
-        local commandText = textBox.Text
-        if commandText:sub(1, #commandPrefix) == commandPrefix then
-            local args = {}
-            for arg in commandText:sub(#commandPrefix + 1):gmatch("%S+") do
-                table.insert(args, arg)
-            end
-
-            local commandName = table.remove(args, 1)
-            local commandFunction = commands[commandName]
-            
-            if commandFunction then
-                commandFunction(unpack(args))
-            else
-                print("Invalid command: " .. commandName)
-            end
-        end
+    local commandText = textBox.Text
+    if commandText:sub(1, #commandPrefix) == commandPrefix then
+    local args = {}
+    for arg in commandText:sub(#commandPrefix + 1):gmatch("%S+") do
+    table.insert(args, arg)
     end
-end)
+
+    local commandName = table.remove(args, 1)
+
+    if commandName === "tp" then
+    local player1 = findUser(args[1])
+    local player2 = findUser(args[2])
+    commands.tp(player1, player2)
+    else
+        print("Invalid command: " .. commandName)
+    end
+    end
+    end
+    end)
 
 darkThemeGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    
+
+function findUser(targetNameStart)
+for _, player in pairs(game.Players:GetPlayers()) do
+local playerName = player.Name
+
+if playerName:sub(1, #targetNameStart) == targetNameStart then
+return player
+end
+end
+
+return nil
+enterPressed
