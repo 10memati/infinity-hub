@@ -50,7 +50,7 @@ closeButton.MouseButton1Click:Connect(function()
 end)
 
 local commandPrefix = ";"
-local commands = loadstring(game:HttpGet("
+local commands = loadstring(game:HttpGet("https://raw.githubusercontent.com/10memati/infinity-hub/main/commands.lua"))()
 
 textBox.FocusLost:Connect(function(enterPressed)
     if enterPressed then
